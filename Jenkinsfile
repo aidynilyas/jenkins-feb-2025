@@ -1,5 +1,4 @@
-template = 
-'''
+template = '''
 apiVersion: v1
 kind: Pod
 metadata:
@@ -9,7 +8,7 @@ metadata:
 spec:
   volumes:
   - name: docker
-    hostpath:
+    hostPath:
       path: /var/run/docker.sock
   containers:
   - command:
@@ -19,6 +18,7 @@ spec:
     name: docker
     volumeMounts:
     - mountPath: /var/run/docker.sock
+      name: docker
 '''
 
 podTemplate(cloud: 'kubernetes', label: 'docker', yaml: template) {
