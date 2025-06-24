@@ -27,8 +27,21 @@ podTemplate(cloud: 'kubernetes', label: 'docker', yaml: template) {
             stage ("Checkout SCM") {
                 git branch: 'main', url: 'https://github.com/aidynilyas/jenkins-feb-2025.git'
             }
+            withCredentials([usernamePassword(
+                        credentialsId: 'DOCKER_CREDS',
+                        usernameVariable: 'DOCKER_USERNAME',
+                        passwordVariable: 'DOCKER_PASSWORD'
+                    )]) 
+            {
+                stage ("Docker Login") {
+                    sh "docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD""
+                }
+            }
             stage ("Docker Build") {
-                sh "docker build -t kaizenacademy/myapache:1.0.0 ."
+                sh "docker build -t 5upreme/myapache:1.0.0 ."
+            }
+            stage ("Docker Push") {
+                sh "docker push 5upreme/myapache:1.0.0 ."
             }
         }
     }
