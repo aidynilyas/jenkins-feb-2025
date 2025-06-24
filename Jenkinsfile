@@ -7,12 +7,18 @@ metadata:
     run: docker
   name: docker
 spec:
+  volumes:
+  - name: docker
+    hostpath:
+      path: /var/run/docker.sock
   containers:
   - command:
     - sleep
     - "3600"
     image: docker
     name: docker
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
 '''
 
 podTemplate(cloud: 'kubernetes', label: 'docker', yaml: template) {
@@ -20,6 +26,9 @@ podTemplate(cloud: 'kubernetes', label: 'docker', yaml: template) {
         container ("docker"){
             stage ("Checkout SCM") {
                 git branch: 'main', url: 'https://github.com/aidynilyas/jenkins-feb-2025.git'
+            }
+            stage ("Docker Build") {
+                sh "docker build -t kaizenacademy/myapache:1.0.0 ."
             }
         }
     }
