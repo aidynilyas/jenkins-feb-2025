@@ -6,6 +6,7 @@ metadata:
     run: binary
   name: binary
 spec:
+  serviceAccount: kubernetes
   containers:
   - image: 5upreme/binaries
     name: binary
