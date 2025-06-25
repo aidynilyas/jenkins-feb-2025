@@ -20,13 +20,8 @@ podTemplate(cloud: 'kubernetes', label: 'binary', yaml: template) {
             }
 
             
-            stage ("Test") {
-                sh """
-                terraform version
-                helm version
-                kubectl version
-                kubectl get nodes
-                """
+            stage ("Helm Chart") {
+                sh "helm upgrade --install apache ./apache"
             }
         }
     }
