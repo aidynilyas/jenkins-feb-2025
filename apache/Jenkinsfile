@@ -1,0 +1,33 @@
+template = '''
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: binary
+  name: binary
+spec:
+  containers:
+  - image: 5upreme/binaries
+    name: binary
+'''
+
+podTemplate(cloud: 'kubernetes', label: 'binary', yaml: template) {
+    node ("binary") {
+        container ("binary"){
+            stage ("Checkout SCM") {
+                git branch: 'main', url: 'https://github.com/aidynilyas/jenkins-feb-2025.git'
+            }
+
+            
+            stage ("Test") {
+                sh 
+                """
+                terraform version
+                helm version
+                kubectl version
+                kubectl get nodes
+                """
+            }
+        }
+    }
+}
