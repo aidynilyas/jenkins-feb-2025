@@ -37,10 +37,10 @@ podTemplate(cloud: 'kubernetes', label: 'docker', yaml: template) {
                     sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                 }
                 stage ("Docker Build") {
-                    sh "docker build -t ${DOCKER_USERNAME}/myapache:1.0.0 ."
+                    sh "docker build -t ${DOCKER_USERNAME}/myapache:3.0.0 ."
                 }
                 stage ("Docker Push") {
-                    sh "docker push ${DOCKER_USERNAME}/myapache:1.0.0"
+                    sh "docker push ${DOCKER_USERNAME}/myapache:3.0.0"
                 }
             }
         }
